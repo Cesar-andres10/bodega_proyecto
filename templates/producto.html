@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+
+<button onclick="history.back()">⬅ Volver</button>
+
+<h2>{{ modelo }}</h2>
+<p>Categoría: {{ categoria }}</p>
+<p>Precio: ${{ precio }}</p>
+<p>Stock total: {{ stock_total }}</p>
+
+<table>
+<tr>
+<th>Talla</th>
+<th>Stock</th>
+</tr>
+
+{% for t in tallas %}
+<tr class="{{ t.color }}">
+<td>{{ t.talla }}</td>
+<td>{{ t.stock }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</div>
+</body>
+</html>

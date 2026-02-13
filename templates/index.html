@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+
+<h2>📦 Sistema Stock</h2>
+
+<a href="/historial">📊 Ver ventas del día</a>
+
+<hr>
+
+<h3>Actualizar stock</h3>
+<form action="/cargar_excel" method="post" enctype="multipart/form-data">
+    <input type="password" name="clave" placeholder="Clave seguridad" required>
+    <input type="file" name="archivo" required>
+    <button>Actualizar</button>
+</form>
+
+<hr>
+
+<h3>Buscar producto</h3>
+<form action="/buscar" method="post">
+    <input type="text" name="codigo" placeholder="SKU o EAN" required>
+    <button>Buscar</button>
+</form>
+
+</div>
+</body>
+</html>
