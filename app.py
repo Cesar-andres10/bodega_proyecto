@@ -190,7 +190,7 @@ def buscar():
     with get_db() as conn:
         c = conn.cursor()
 
-        # 🔥 Buscar primero por EAN
+        # 🔥 1️⃣ Buscar primero por EAN (coincidencia exacta)
         c.execute("""
             SELECT sku, modelo, categoria, precio
             FROM stock_productos
@@ -199,22 +199,41 @@ def buscar():
         """, (codigo,))
         producto = c.fetchone()
 
-        # 🔥 Si no encuentra por EAN, buscar por SKU
+        # 🔥 2️⃣ Si no encuentra por EAN, buscar por SKU REAL
+        # Ahora extraemos la 3ª palabra del texto SKU completo
+        # Formato esperado:
+        # "ZAP NIK DV4130-002 W ZOOMX VAPORF 5"
+        # Donde la 3ª palabra es el SKU real
+
         if not producto:
+
             c.execute("""
                 SELECT sku, modelo, categoria, precio
                 FROM stock_productos
-                WHERE sku = ?
-                LIMIT 1
-            """, (codigo,))
-            producto = c.fetchone()
+            """)
+
+            productos = c.fetchall()
+            producto = None
+
+            for row in productos:
+                sku_completo = row[0]
+                partes = sku_completo.split()
+
+                # 🔒 Validamos que tenga al menos 3 palabras
+                if len(partes) >= 3:
+                    sku_real = partes[2].strip()
+
+                    # 🔒 Comparación segura (ignora mayúsculas)
+                    if sku_real.upper() == codigo.upper():
+                        producto = row
+                        break
 
         if not producto:
             return "❌ Producto no encontrado"
 
         sku_encontrado, modelo, categoria, precio = producto
 
-        # 🔥 Traer todas las tallas del SKU
+        # 🔥 Traer todas las tallas del SKU encontrado
         c.execute("""
             SELECT talla, stock
             FROM stock_productos
@@ -282,3 +301,4 @@ def historial():
 
 if __name__ == "__main__":
     app.run()
+
