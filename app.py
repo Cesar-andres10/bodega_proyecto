@@ -92,15 +92,15 @@ def cargar_excel():
 
     # 🔥 Mapeo flexible de columnas (tolera tildes y variaciones)
     df = df.rename(columns={
-        "modelo": "sku",
-        "texto breve de material": "modelo",
-        "categoria": "categoria",
-        "categoría": "categoria",
-        "tamaño principal": "talla",
-        "libre utilización": "stock",
-        "codigo ean/upc": "ean",
-        "código ean/upc": "ean",
-        "valor total": "precio"
+        "DESCRI": "sku",
+        "DESCRI": "modelo",
+        "DESCRI": "categoria",
+        "DESCRI": "categoria",
+        "MI_TALLA": "talla",
+        "STKACT": "stock",
+        "ARTICULO": "ean",
+        "ARTICULO": "ean",
+        "VENTA": "precio"
     })
 
     # 🔥 Verificar que existan las columnas necesarias
@@ -301,4 +301,5 @@ def historial():
 
 if __name__ == "__main__":
     app.run()
+
 
